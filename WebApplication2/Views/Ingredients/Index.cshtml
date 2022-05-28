@@ -1,0 +1,89 @@
+﻿@model WebApplication2.ViewModels.IndexViewModel;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if(ViewBag.Pager!=null){
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<h1>Ingredient</h1>
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+
+</p>
+    <form method="get" class="d-flex input-group w-auto">
+        <div class="form-group">
+          <select class="form-select" asp-items="@Model.FinishedProduct" name="finprod" value="@Model.SelectedProduct"></select>
+        </div>
+         <button class="btn btn-warning" type="submit">Filter</button>
+    </form>
+    
+<table class="table">
+    <thead>
+        <tr>
+            <th>RawMaterial</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Ingredients) {
+          
+            <tr>
+               <td>
+               @Html.DisplayFor(modelItem => item.RawMaterialNavigation.Title)
+               </td>
+              <td>
+               @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+            <td>
+               <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+    <nav aria-label="Page navigation example">
+         @if (pager.TotalPages > 0)
+        {
+        <ul class="pagination justify-content-center">
+
+            @if (pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                  <a class="page-link" asp-controller="Ingredients" asp-action="Index" asp-route-pg="1">First</a>
+                </li> 
+                <li class="page-item">
+                  <a class="page-link" asp-controller="Ingredients" asp-action="Index" 
+                  asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
+                </li> 
+            }
+
+                 @for(var pge=pager.StartPage; pge <= pager.EndPage; pge++)
+                {
+                <li class="page-item @(pge == pager.CurrentPage ? "active": "")">
+                  <a class="page-link" asp-controller="Ingredients" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                </li>
+                }
+            @if (pager.CurrentPage < pager.TotalPages)
+            {
+                 <li class="page-item">
+                  <a class="page-link" asp-controller="Ingredients" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                </li> 
+                <li class="page-item">
+                  <a class="page-link" asp-controller="Ingredients" asp-action="Index" asp-route-pg="@(pager.TotalPages)">Last</a>
+                </li>
+            }
+
+            </ul>
+        }
+    </nav>
+       
+

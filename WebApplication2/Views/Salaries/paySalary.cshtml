@@ -1,0 +1,186 @@
+﻿@model WebApplication2.Models.Salary
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Salary</h4>
+<hr />
+        <form asp-action="Create" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-2">
+                @*<label asp-for="Month" class="form-label"></label>*@
+                <select asp-for="Month" class="form-select">
+                    @{
+                        DateTime month = DateTime.Now;
+                        foreach (var item in ViewBag.Month)
+                        {
+                            if (month.Month.ToString() == item.Value)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                @*<label asp-for="Date" class="form-label"></label>*@
+                <input asp-for="Date" class="form-control" value="@DateTime.Now.Year"/>
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+               <label asp-for="Issued" class="control-label"></label>
+                <input asp-for="Issued" class="form-control"/>
+                <span asp-validation-for="Issued" class="text-danger"></span>
+                <label asp-for="Issued" class="control-label"></label>
+                <select asp-for="Issued" class ="form-control">
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>*@
+            <div class="col-md-2">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+
+  <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Employee
+            </th>
+            <th>
+                Purchase
+            </th>
+            <th>
+                Sale
+            </th>
+            <th>
+                Production
+            </th>
+            <th>
+                Count
+            </th>
+            <th>
+                Salary
+            </th>
+            <th>
+                Bonus
+            </th>
+            <th>
+                TotalAmount
+            </th>
+            <th>
+                Month
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Issued
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@if(ViewBag.salary!=null){
+    @foreach (var item in ViewBag.salary) {
+        <tr>
+            <td>
+                @item.EmployeeNavigation.Names
+            </td>
+           <td>
+                @item.Purchase
+            </td>
+            <td>
+                @item.Sale
+            </td>
+            <td>
+                @item.Production
+            </td>
+            <td>
+                @item.Count
+            </td>
+            <td>
+                @{
+                    @Math.Round(item.Salary1,2)
+                }
+                
+            </td>
+            <td>
+                @item.Bonus
+            </td>
+            <td>
+                @item.TotalAmount
+            </td>
+            <td>
+                @item.MonthNavigation.Month1
+            </td>
+             <td>
+                @item.Date
+            </td>
+            <td>
+                @item.Issued
+            </td>
+            @*<td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>*@
+        </tr>
+}
+        <tr>
+            <td> </td>
+            <td></td>
+            <td> </td>
+            <td> </td>
+            <td></td>
+            <td></td>
+            @if(@ViewBag.total>@ViewBag.budget){
+                <td align="right"> <b align="right">Total:</b> </td>
+                <td >
+                    @ViewBag.total
+                </td>
+                <td align="right">
+                    <b align="right">Budget:</b>
+                </td>
+                 <td>
+                    @ViewBag.budget
+                </td>
+            }
+            @if(@ViewBag.total<=@ViewBag.budget) {
+                 <td align="right"><b align="right">Total:</b> </td>
+                <td>
+                    @ViewBag.total
+                </td>
+                <td align="right">
+                    <b align="right">Budget:</b>
+                </td>
+                 <td>
+                    @ViewBag.budget
+                </td>
+            }
+            <td>
+                <form asp-action="paySalary">
+                    <input type="submit" value="paySalary"  class="btn btn-primary"/>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,52 @@
+﻿@model WebApplication2.Models.SaleOfProduct
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>SaleOfProduct</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Product" class="control-label"></label>
+                <select asp-for="Product" class ="form-control" asp-items="ViewBag.Product"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Summa" class="control-label"></label>
+                <input asp-for="Summa" class="form-control" />
+                <span asp-validation-for="Summa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Datee" class="control-label"></label>
+                <input asp-for="Datee" class="form-control" />
+                <span asp-validation-for="Datee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee" class="control-label"></label>
+                <select asp-for="Employee" class ="form-control" asp-items="ViewBag.Employee"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-outline-warning" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

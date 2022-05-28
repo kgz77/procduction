@@ -1,0 +1,135 @@
+﻿@model IEnumerable<WebApplication2.Models.Salary>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<h1>Salary</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+
+    <form asp-action="Index" class="row g-3">
+
+        @using (Html.BeginForm())
+{
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-2">
+                @*<label asp-for="Month" class="form-label"></label>*@
+                <select name="getMonth" class="form-select">
+                    @{
+                        DateTime month = DateTime.Now;
+                        foreach (var item in ViewBag.Month)
+                        {
+                            if (month.Month.ToString() == item.Value)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input name="getYear" class="form-control" value="@DateTime.Now.Year"/>
+                <span class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="Firlter" class="btn btn-primary"/>
+            </div>
+            }
+        </form>
+
+
+ 
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Employee
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Purchase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Production)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                Salary
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bonus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                Month
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issued)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeNavigation.Names)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Purchase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Production)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bonus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthNavigation.Month1)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @item.Issued
+            </td>
+@*            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>
